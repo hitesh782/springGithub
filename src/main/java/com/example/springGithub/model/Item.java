@@ -3,12 +3,15 @@ package com.example.springGithub.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 @Document(collection="items")
 public class Item {
 
 	@Id
 	private String id;
+	
 	private String name;
+	
 	private double price;
 	
 	
@@ -18,7 +21,7 @@ public class Item {
 	}
 
 
-	public Item(String id,String name, double price) {
+	public Item(String id, String name, double price) {
 		super();
 		this.id = id;
 		this.name = name;

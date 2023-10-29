@@ -3,7 +3,11 @@ package com.example.springGithub.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,8 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private ItemRepository itemRepository ;
+	
+	 private static final Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
 	@Override
 	public ResponseEntity<List<Item>> getAllItems() {
@@ -27,6 +33,7 @@ public class ItemServiceImpl implements ItemService {
 	public ResponseEntity<Item> getItemById(String itemId) {
 		Optional<Item> itemOptional = itemRepository.findById(itemId);
 		if(itemOptional.isPresent()) {
+			logger.info("item is present with given id");
 			return new ResponseEntity<>(itemOptional.get(),HttpStatus.OK);
 		}
 		else {
@@ -64,6 +71,11 @@ public class ItemServiceImpl implements ItemService {
 		else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public Page<Item> getItemsPaginationWise(Pageable pageable) {
+		return itemRepository.findAll(pageable);
 	}
 
 }
